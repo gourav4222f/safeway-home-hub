@@ -48,6 +48,12 @@
     --taxi-gold: 43 90% 50%;
     --taxi-dark-gray: 0 0% 20%;
 
+    /* Tour & Travel Accent Colors */
+    --tour-blue: 217 91% 60%;
+    --tour-green: 142 71% 45%;
+    --tour-teal: 173 80% 40%;
+    --tour-orange: 24 95% 53%;
+
     /* Gradients */
     --gradient-taxi: linear-gradient(135deg, hsl(45 96% 55%) 0%, hsl(43 90% 50%) 100%);
     --gradient-dark: linear-gradient(135deg, hsl(0 0% 8%) 0%, hsl(0 0% 20%) 100%);

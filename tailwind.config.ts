@@ -58,6 +58,12 @@ export default {
           gold: "hsl(var(--taxi-gold))",
           "dark-gray": "hsl(var(--taxi-dark-gray))",
         },
+        tour: {
+          blue: "hsl(var(--tour-blue))",
+          green: "hsl(var(--tour-green))",
+          teal: "hsl(var(--tour-teal))",
+          orange: "hsl(var(--tour-orange))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

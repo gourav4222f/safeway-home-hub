@@ -1,6 +1,7 @@
-import { Phone, MessageCircle, ArrowRight } from "lucide-react";
+import { MapPin, ArrowUpRight, Compass, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import serviceTaxi from "@/assets/service-taxi.jpg";
 import serviceOutstation from "@/assets/service-outstation.jpg";
 import serviceAirport from "@/assets/service-airport.jpg";
@@ -8,34 +9,135 @@ import serviceTour from "@/assets/service-tour.jpg";
 
 const services = [
   {
-    image: serviceTaxi,
+    images: [serviceTaxi],
     title: "Local Taxi Service",
-    description: "Reliable city rides for daily commute, shopping, and local travel. Available 24/7 with professional drivers.",
-    features: ["Hourly & Daily Rates", "AC & Non-AC Options", "GPS Tracked"],
+    location: "Mumbai, India",
+    price: "₹499",
+    priceLabel: "Starting",
+    hasHotSale: false,
+    features: ["Hourly Rates", "AC Available"],
   },
   {
-    image: serviceOutstation,
+    images: [serviceOutstation],
     title: "Outstation Taxi",
-    description: "Comfortable long-distance travel with experienced drivers. One-way and round-trip options for inter-city journeys.",
-    features: ["One-way & Round Trip", "Multiple Cities", "Package Deals"],
+    location: "Pan India",
+    price: "₹2,999",
+    priceLabel: "Per Trip",
+    hasHotSale: true,
+    features: ["One-way Trip", "Round Trip"],
   },
   {
-    image: serviceAirport,
+    images: [serviceAirport],
     title: "Airport Pickup & Drop",
-    description: "Never miss a flight with our punctual airport transfer service. We track your flight for timely pickup.",
-    features: ["Flight Tracking", "Meet & Greet", "24/7 Available"],
+    location: "All Major Airports",
+    price: "₹799",
+    priceLabel: "Per Ride",
+    hasHotSale: false,
+    features: ["Flight Tracking", "24/7 Available"],
   },
   {
-    image: serviceTour,
+    images: [serviceTour],
     title: "Tour Packages",
-    description: "Explore popular destinations with our curated tour packages. Experienced drivers who double as local guides.",
-    features: ["Popular Destinations", "Custom Itineraries", "Group Discounts"],
+    location: "Popular Destinations",
+    price: "₹4,999",
+    priceLabel: "Per Person",
+    hasHotSale: true,
+    features: ["Experience", "All Inclusive"],
   },
 ];
 
+const ServiceCard = ({ service, index }: { service: typeof services[0]; index: number }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="group bg-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-border/50"
+    >
+      {/* Image Section */}
+      <div className="relative h-52 overflow-hidden">
+        <img
+          src={service.images[currentImageIndex]}
+          alt={service.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        
+        {/* Hot Sale Badge */}
+        {service.hasHotSale && (
+          <span className="absolute top-3 right-3 bg-tour-orange text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+            Hot Sale!
+          </span>
+        )}
+
+        {/* Image Carousel Dots */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+          {[0, 1, 2].map((dotIndex) => (
+            <button
+              key={dotIndex}
+              onClick={() => setCurrentImageIndex(dotIndex % service.images.length)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                dotIndex === currentImageIndex 
+                  ? "bg-tour-blue w-5" 
+                  : "bg-white/70 hover:bg-white"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="p-5">
+        {/* Title */}
+        <h3 className="font-heading text-lg font-bold text-foreground mb-1.5 line-clamp-1">
+          {service.title}
+        </h3>
+
+        {/* Location */}
+        <div className="flex items-center gap-1.5 text-muted-foreground text-sm mb-4">
+          <MapPin className="w-3.5 h-3.5 text-tour-teal" />
+          <span>{service.location}</span>
+        </div>
+
+        {/* CTA Row */}
+        <div className="flex items-center justify-between mb-4">
+          <Button 
+            size="sm" 
+            className="bg-tour-blue hover:bg-tour-blue/90 text-white font-medium px-4"
+          >
+            Book Now
+            <ArrowUpRight className="w-4 h-4 ml-1" />
+          </Button>
+
+          <div className="text-right">
+            <span className="text-xs text-muted-foreground block">{service.priceLabel}</span>
+            <span className="font-heading font-bold text-lg text-foreground">{service.price}</span>
+          </div>
+        </div>
+
+        {/* Features */}
+        <div className="flex items-center gap-4 pt-4 border-t border-border/50">
+          {service.features.map((feature, fIndex) => (
+            <div key={fIndex} className="flex items-center gap-1.5 text-sm text-muted-foreground">
+              {fIndex === 0 ? (
+                <Compass className="w-4 h-4 text-tour-green" />
+              ) : (
+                <CheckCircle2 className="w-4 h-4 text-tour-teal" />
+              )}
+              <span>{feature}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const ServicesSection = () => {
   return (
-    <section id="services" className="py-20 lg:py-28 bg-muted">
+    <section id="services" className="py-20 lg:py-28 bg-background">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <motion.div
@@ -45,7 +147,11 @@ const ServicesSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="section-label mb-4 block">Our Services</span>
+          <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-tour-blue mb-4">
+            <span className="w-8 h-[2px] bg-tour-blue"></span>
+            Our Services
+            <span className="w-8 h-[2px] bg-tour-blue"></span>
+          </span>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             Premium Taxi Services For Every Need
           </h2>
@@ -58,56 +164,7 @@ const ServicesSection = () => {
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {services.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
-            >
-              {/* Image */}
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 to-transparent" />
-                <h3 className="absolute bottom-4 left-4 right-4 font-heading text-xl font-bold text-secondary-foreground">
-                  {service.title}
-                </h3>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-                  {service.description}
-                </p>
-
-                {/* Features */}
-                <ul className="space-y-2 mb-6">
-                  {service.features.map((feature, fIndex) => (
-                    <li key={fIndex} className="flex items-center gap-2 text-sm text-foreground">
-                      <ArrowRight className="w-4 h-4 text-primary" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTAs */}
-                <div className="flex gap-2">
-                  <Button size="sm" className="flex-1 bg-primary text-primary-foreground hover:bg-taxi-gold">
-                    <Phone className="w-4 h-4 mr-1" />
-                    Call
-                  </Button>
-                  <Button size="sm" variant="outline" className="flex-1 border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground">
-                    <MessageCircle className="w-4 h-4 mr-1" />
-                    WhatsApp
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
+            <ServiceCard key={index} service={service} index={index} />
           ))}
         </div>
       </div>
