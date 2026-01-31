@@ -1,4 +1,4 @@
-import { MapPin, ArrowUpRight, Compass, CheckCircle2 } from "lucide-react";
+import { MapPin, Phone, MessageCircle, Compass, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -12,8 +12,6 @@ const services = [
     images: [serviceTaxi],
     title: "Local Taxi Service",
     location: "Mumbai, India",
-    price: "₹499",
-    priceLabel: "Starting",
     hasHotSale: false,
     features: ["Hourly Rates", "AC Available"],
   },
@@ -21,8 +19,6 @@ const services = [
     images: [serviceOutstation],
     title: "Outstation Taxi",
     location: "Pan India",
-    price: "₹2,999",
-    priceLabel: "Per Trip",
     hasHotSale: true,
     features: ["One-way Trip", "Round Trip"],
   },
@@ -30,8 +26,6 @@ const services = [
     images: [serviceAirport],
     title: "Airport Pickup & Drop",
     location: "All Major Airports",
-    price: "₹799",
-    priceLabel: "Per Ride",
     hasHotSale: false,
     features: ["Flight Tracking", "24/7 Available"],
   },
@@ -39,8 +33,6 @@ const services = [
     images: [serviceTour],
     title: "Tour Packages",
     location: "Popular Destinations",
-    price: "₹4,999",
-    priceLabel: "Per Person",
     hasHotSale: true,
     features: ["Experience", "All Inclusive"],
   },
@@ -102,19 +94,27 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
         </div>
 
         {/* CTA Row */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2 mb-4">
           <Button 
             size="sm" 
-            className="bg-tour-blue hover:bg-tour-blue/90 text-white font-medium px-4"
+            className="bg-tour-blue hover:bg-tour-blue/90 text-white font-medium px-3 flex-1"
+            asChild
           >
-            Book Now
-            <ArrowUpRight className="w-4 h-4 ml-1" />
+            <a href="tel:+919876543210">
+              <Phone className="w-4 h-4 mr-1" />
+              Call
+            </a>
           </Button>
-
-          <div className="text-right">
-            <span className="text-xs text-muted-foreground block">{service.priceLabel}</span>
-            <span className="font-heading font-bold text-lg text-foreground">{service.price}</span>
-          </div>
+          <Button 
+            size="sm" 
+            className="bg-tour-green hover:bg-tour-green/90 text-white font-medium px-3 flex-1"
+            asChild
+          >
+            <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer">
+              <MessageCircle className="w-4 h-4 mr-1" />
+              WhatsApp
+            </a>
+          </Button>
         </div>
 
         {/* Features */}

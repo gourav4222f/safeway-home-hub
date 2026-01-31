@@ -16,8 +16,6 @@ const services = [
     icon: Car,
     title: "Local Taxi Service",
     location: "Mumbai, India",
-    price: "₹499",
-    priceLabel: "Starting",
     description: "Quick and reliable city rides for all your local transportation needs. Available 24/7 with comfortable, AC-equipped vehicles.",
     features: [
       "Hourly rental options",
@@ -34,8 +32,6 @@ const services = [
     icon: Map,
     title: "Outstation Taxi",
     location: "Pan India",
-    price: "₹2,999",
-    priceLabel: "Per Trip",
     description: "Comfortable long-distance travel across cities with experienced drivers. One-way and round-trip options available for all destinations.",
     features: [
       "One-way & round trips",
@@ -52,8 +48,6 @@ const services = [
     icon: Plane,
     title: "Airport Pickup & Drop",
     location: "All Major Airports",
-    price: "₹799",
-    priceLabel: "Per Ride",
     description: "Never miss a flight with our punctual airport transfer service. Real-time flight tracking ensures we're always there when you land.",
     features: [
       "Flight tracking",
@@ -70,8 +64,6 @@ const services = [
     icon: Compass,
     title: "Tour Packages",
     location: "Popular Destinations",
-    price: "₹4,999",
-    priceLabel: "Per Person",
     description: "Explore India's most beautiful destinations with our curated tour packages. All-inclusive trips with comfortable stays and guided tours.",
     features: [
       "All-inclusive packages",
@@ -138,10 +130,9 @@ const Services = () => {
                       className="w-full h-[350px] lg:h-[450px] object-cover"
                     />
                   </div>
-                  {/* Price Badge */}
-                  <div className="absolute -bottom-4 -right-4 bg-tour-blue text-white rounded-2xl px-6 py-4 shadow-lg">
-                    <div className="text-sm opacity-80">{service.priceLabel}</div>
-                    <div className="text-3xl font-heading font-bold">{service.price}</div>
+                  {/* Service Icon Badge */}
+                  <div className="absolute -bottom-4 -right-4 bg-tour-blue text-white rounded-2xl p-4 shadow-lg">
+                    <service.icon className="w-8 h-8" />
                   </div>
                 </div>
 
