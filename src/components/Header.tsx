@@ -2,17 +2,20 @@ import { useState } from "react";
 import { Phone, MessageCircle, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "FAQ", href: "#faq" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", href: isHomePage ? "#home" : "/" },
+    { name: "About", href: "/about" },
+    { name: "Services", href: "/services" },
+    { name: "Testimonials", href: isHomePage ? "#testimonials" : "/#testimonials" },
+    { name: "FAQ", href: isHomePage ? "#faq" : "/#faq" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
@@ -20,7 +23,7 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-primary-foreground font-heading font-bold text-xl">S</span>
             </div>
@@ -29,18 +32,28 @@ const Header = () => {
                 Sarathi <span className="text-primary">SafeWay</span>
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-secondary-foreground/80 hover:text-primary transition-colors font-medium text-sm"
-              >
-                {link.name}
-              </a>
+              link.href.startsWith("#") ? (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="text-secondary-foreground/80 hover:text-primary transition-colors font-medium text-sm"
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className="text-secondary-foreground/80 hover:text-primary transition-colors font-medium text-sm"
+                >
+                  {link.name}
+                </Link>
+              )
             ))}
           </nav>
 
@@ -77,14 +90,25 @@ const Header = () => {
           >
             <nav className="container mx-auto px-4 py-4 flex flex-col gap-3">
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-secondary-foreground/80 hover:text-primary transition-colors py-2 font-medium"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.name}
-                </a>
+                link.href.startsWith("#") ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="text-secondary-foreground/80 hover:text-primary transition-colors py-2 font-medium"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className="text-secondary-foreground/80 hover:text-primary transition-colors py-2 font-medium"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                )
               ))}
               <div className="flex gap-3 pt-3 border-t border-secondary-foreground/10">
                 <Button variant="outline" size="sm" className="flex-1 border-primary text-primary">
